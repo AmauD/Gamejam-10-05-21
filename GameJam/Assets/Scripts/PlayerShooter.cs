@@ -43,11 +43,11 @@ public class PlayerShooter : MonoBehaviour
                 Enemy enemyHit = hitObject.GetComponent<Enemy>();
                 if(hitObject.tag == "Weakpoint")
                 {
-                    enemyHit.KillEnemy();
+                    enemyHit.Kill();
                 }
                 else
                 {
-                    enemyHit.DamageEnemy(damage);
+                    enemyHit.Damage(damage);
                 }
             }
             //_enemySpawner.enemyList.Remove(hitObject.GetComponent<Enemy>());

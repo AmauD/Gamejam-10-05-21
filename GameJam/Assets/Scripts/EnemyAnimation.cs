@@ -8,10 +8,14 @@ public class EnemyAnimation : MonoBehaviour
     [SerializeField] private int numberAlternateWeakpointDeath = 1;
     [SerializeField] private int numberAlternateNormalDeath = 1;
 
+    private Enemy enemy = null;
+
     void Start()
     {
         if (animator == null)
             animator = GetComponent<Animator>();
+        if (!enemy)
+            enemy = GetComponentInParent<Enemy>();
     }
 
     [ContextMenu("Full Speed")]
@@ -31,6 +35,19 @@ public class EnemyAnimation : MonoBehaviour
         {
             animator.SetFloat("BlendWalk", speed);
         }
+    }
+
+    public void LaunchAttack()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("Attack");
+        }
+    }
+
+    public void AttackOver()
+    {
+        enemy.RemoveEnemy();
     }
 
     /// <summary>

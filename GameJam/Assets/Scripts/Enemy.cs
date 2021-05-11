@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
     private EnemySpawner enemySpawner = null;
 
@@ -10,18 +11,20 @@ public class Enemy : MonoBehaviour
     [SerializeField] private EnemyAnimation enemyAnimation = null;
     [SerializeField] private EnemySounds enemySounds = null;
 
-    [SerializeField] private int maxHealth = 2;
-    private int currenHealth;
+    public Transform gunTarget;
+    public Transform overTarget;
+    public Transform underTarget;
 
     [SerializeField] private float speed = 2.5f;
     private bool moving = false;
 
     private Transform target;
 
-    void Start()
+    protected override void Start()
     {
-        currenHealth = maxHealth;
-        target = GameObject.Find("Player").transform;
+        base.Start();
+        target = FindObjectOfType<Player>().transform;
+        StartCoroutine(PingPong());
     }
 
     public void InitializeEnemy(EnemySpawner enemySpawner, Transform spawnLocation)
@@ -33,29 +36,17 @@ public class Enemy : MonoBehaviour
         enemyAnimation.FullSpeed();
     }
 
-    public bool IsAlive()
+    public void RemoveEnemy()
     {
-        return (currenHealth > 0);
-    }
-
-    public void DamageEnemy(int damage)
-    {
-        currenHealth -= damage;
-        if (currenHealth <= 0)
-            KillEnemy();
-    }
-
-    public void KillEnemy()
-    {
-        currenHealth = 0;
-        moving = false;
-        enemyAnimation.NormalDeath();
+        enemySpawner.UnlistEnemy(this);
+        Destroy(this.gameObject);
     }
 
     public void LaunchAttack()
     {
         moving = false;
         enemyAnimation.StopWalk();
+        enemyAnimation.LaunchAttack();
     }
 
     private void MoveToPlayer()
@@ -63,9 +54,28 @@ public class Enemy : MonoBehaviour
         transform.LookAt(target.position);
         transform.position += Time.deltaTime * speed * transform.forward;
 
-        if (Vector3.Distance(transform.position, target.position) < 1f)
+        if (Vector3.Distance(transform.position, target.position) < 2f)
         {
             LaunchAttack();
+        }
+    }
+
+    public override void Kill()
+    {
+        base.Kill();
+        moving = false;
+        enemyAnimation.NormalDeath();
+    }
+
+    IEnumerator PingPong()
+    {
+        while (true)
+        {
+
+            Tween tween = gunTarget.DOLocalMove(overTarget.localPosition, 0.5f);
+            yield return tween.WaitForCompletion();
+            tween = gunTarget.DOLocalMove(underTarget.localPosition, 0.5f);
+            yield return tween.WaitForCompletion();
         }
     }
 
