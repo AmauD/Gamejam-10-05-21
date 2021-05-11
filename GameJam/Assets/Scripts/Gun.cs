@@ -5,26 +5,31 @@ using DG.Tweening;
 
 public class Gun : MonoBehaviour
 {
+    [SerializeField] private Player player;
     [SerializeField] public Transform canon;
     [SerializeField] private SpriteRenderer crosshair;
     [SerializeField] private LayerMask layerMask;
+    [SerializeField] private AudioSource gunAudioSource;
 
+    [SerializeField] private int damage = 1;
     [SerializeField] private int maxAmmo = 6;
     private int currentAmmo;
 
     [SerializeField] private float reloadTime = 2f;
-    private float currentReloadTime = 0f;
 
     private Enemy currentTarget = null;
+    private Tweener tween;
+    private Coroutine pingPong = null;
+    private Coroutine reloading = null;
 
     void Start()
     {
         currentAmmo = maxAmmo;
     }
 
-    public bool HasTarget()
+    public bool HasValidTarget()
     {
-        return currentTarget;
+        return currentTarget && currentTarget.IsAlive();
     }
 
     public void AssignTarget(Enemy enemyToTarget)
@@ -32,13 +37,13 @@ public class Gun : MonoBehaviour
         if (enemyToTarget && enemyToTarget.IsAlive())
         {
             currentTarget = enemyToTarget;
-            StartCoroutine(PingPong());
+            pingPong = StartCoroutine(PingPong());
         }
     }
 
     public bool Reloading()
     {
-        return (currentReloadTime > 0f);
+        return (reloading != null);
     }
 
     public bool TryFireGun()
@@ -54,26 +59,62 @@ public class Gun : MonoBehaviour
 
     private void FireGun()
     {
+        if(pingPong != null)
+        {
+            StopCoroutine(pingPong);
+            tween.Kill();
+        }
+
         currentAmmo--;
 
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo, 250f, layerMask))
+        {
+            Enemy enemy = hitInfo.collider.GetComponentInParent<Enemy>();
+            if (enemy)
+            {
+                if(hitInfo.collider.tag == "Weakpoint")
+                {
+                    enemy.Damage(9999, true);
+                }
+                else
+                {
+                    enemy.Damage(damage);
+                }
+            }
+        }
 
         if (currentAmmo <= 0)
         {
             ReloadGun();
         }
+        else
+        {
+            player.NextEnemy();
+        }
     }
 
     private void ReloadGun()
     {
-        currentReloadTime = reloadTime;
+        reloading = StartCoroutine(Reload());
+    }
+
+    IEnumerator Reload()
+    {
+        tween = transform.DOLocalMoveY(0f, 0.5f);
+        yield return tween.WaitForCompletion();
+        yield return new WaitForSeconds(reloadTime);
         currentAmmo = maxAmmo;
+        tween = transform.DOLocalMoveY(1f, 0.5f);
+        yield return tween.WaitForCompletion();
+        player.TargetClosestEnemy();
+        reloading = null;
     }
 
     IEnumerator PingPong()
     {
-        if(currentTarget)
+        if (currentTarget)
         {
-            Tween tween = transform.DOLookAt(currentTarget.gunTarget.position, 0.5f);
+            tween = transform.DOLookAt(currentTarget.gunTarget.position, 0.5f);
 
             yield return tween.WaitForCompletion();
             while (true && currentTarget)
@@ -84,26 +125,27 @@ public class Gun : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo, 250f, layerMask))
+        if(reloading == null && player.IsAlive())
         {
-            Debug.DrawLine(transform.position, hitInfo.point, Color.red);
-            crosshair.transform.position = hitInfo.point;
-            crosshair.color = Color.green;
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo, 250f, layerMask))
+            {
+                Debug.DrawLine(transform.position, hitInfo.point, Color.red);
+                crosshair.transform.position = hitInfo.point;
+                crosshair.color = Color.green;
+            }
+            else
+            {
+                Debug.DrawLine(transform.position, transform.forward * 200f + transform.position, Color.blue);
+                if (currentTarget)
+                    crosshair.transform.position = transform.forward * Vector3.Distance(currentTarget.transform.position, transform.position) + transform.position;
+                crosshair.color = Color.red;
+            }
         }
         else
         {
-            Debug.DrawLine(transform.position, transform.forward * 200f + transform.position, Color.blue);
-            if(currentTarget)
-                crosshair.transform.position = transform.forward * Vector3.Distance(currentTarget.transform.position, transform.position) + transform.position;
-            crosshair.color = Color.red;
-        }
-
-        if (currentReloadTime > 0f)
-        {
-            currentReloadTime -= Time.deltaTime;
+            crosshair.transform.localPosition = Vector3.zero;
         }
     }
 }

@@ -9,7 +9,7 @@ public class Enemy : Entity
 
     [SerializeField] private EnemyMove enemyMove = null;
     [SerializeField] private EnemyAnimation enemyAnimation = null;
-    [SerializeField] private EnemySounds enemySounds = null;
+    [SerializeField] public EnemySounds enemySounds = null;
 
     public Transform gunTarget;
     public Transform overTarget;
@@ -18,12 +18,13 @@ public class Enemy : Entity
     [SerializeField] private float speed = 2.5f;
     private bool moving = false;
 
-    private Transform target;
+    [SerializeField] private int damage = 1;
+    private Player target;
 
     protected override void Start()
     {
         base.Start();
-        target = FindObjectOfType<Player>().transform;
+        target = FindObjectOfType<Player>();
         StartCoroutine(PingPong());
     }
 
@@ -39,7 +40,6 @@ public class Enemy : Entity
     public void RemoveEnemy()
     {
         enemySpawner.UnlistEnemy(this);
-        Destroy(this.gameObject);
     }
 
     public void LaunchAttack()
@@ -51,25 +51,40 @@ public class Enemy : Entity
 
     private void MoveToPlayer()
     {
-        transform.LookAt(target.position);
+        transform.LookAt(target.transform.position);
         transform.position += Time.deltaTime * speed * transform.forward;
 
-        if (Vector3.Distance(transform.position, target.position) < 2f)
+        if (Vector3.Distance(transform.position, target.transform.position) < 4f)
         {
             LaunchAttack();
         }
     }
 
+    public void Damage(int damage, bool weakpoint = false)
+    {
+        currenHealth -= damage;
+        if (currenHealth <= 0)
+        {
+            Kill();
+            enemyAnimation.Death(weakpoint);
+        }
+    }
+
+    public void DamagePlayer()
+    {
+        target.Damage(damage);
+    }
+
     public override void Kill()
     {
         base.Kill();
+        RemoveEnemy();
         moving = false;
-        enemyAnimation.NormalDeath();
     }
 
     IEnumerator PingPong()
     {
-        while (true)
+        while (IsAlive())
         {
 
             Tween tween = gunTarget.DOLocalMove(overTarget.localPosition, 0.5f);

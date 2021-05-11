@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2240296585771629609}
   - component: {fileID: 8753437222213300678}
   - component: {fileID: 2621565729205895957}
-  - component: {fileID: 262884577226524975}
   m_Layer: 6
   m_Name: EnemyCowboy
   m_TagString: Untagged
@@ -50,7 +49,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -67,27 +66,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 2
-  enemyMove: {fileID: 262884577226524975}
+  enemyMove: {fileID: 0}
   enemyAnimation: {fileID: 2621565729671289359}
   enemySounds: {fileID: 2976438392440818393}
   gunTarget: {fileID: 5051948208135817359}
   overTarget: {fileID: 1986678634994976855}
   underTarget: {fileID: 9138578172326200976}
   speed: 2.5
---- !u!114 &262884577226524975
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2532745749782616119}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2622dd5396900324a9330643f2384cc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2.5
-  moving: 0
+  damage: 1
 --- !u!114 &2621565729671289359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,9 +258,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -286,6 +272,15 @@ AudioSource:
       value: 1
       inSlope: 0
       outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.41658533
+      value: 0.38406354
+      inSlope: -1.3533678
+      outSlope: -1.3533678
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
@@ -361,8 +356,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyAudioSource: {fileID: 4957736379177971490}
   spawnSounds: []
-  attackSounds: []
-  deathSounds: []
+  attackSounds:
+  - {fileID: 8300000, guid: 33dc52615f846ca4d9cedb9ec7d1876c, type: 3}
+  - {fileID: 8300000, guid: c16f78f205cf34a41a8422639becdae5, type: 3}
+  - {fileID: 8300000, guid: 224c50244d7c77645abb5c1dc705cd94, type: 3}
+  deathSounds:
+  - {fileID: 8300000, guid: b3153c18182e22548aaee5c2139e4d3f, type: 3}
+  - {fileID: 8300000, guid: a5612c857ae32034bb33c015a12f9d38, type: 3}
 --- !u!1001 &2621565730663337997
 PrefabInstance:
   m_ObjectHideFlags: 0

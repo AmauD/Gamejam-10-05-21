@@ -42,12 +42,20 @@ public class EnemyAnimation : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("Attack");
+            enemy.enemySounds.PlayAttackSound();
         }
     }
 
     public void AttackOver()
     {
+        enemy.DamagePlayer();
         enemy.RemoveEnemy();
+        Destroy(enemy.gameObject);
+    }
+
+    public void DeathOver()
+    {
+        Destroy(enemy.gameObject);
     }
 
     /// <summary>
@@ -68,7 +76,7 @@ public class EnemyAnimation : MonoBehaviour
         Death(true);
     }
 
-    void Death(bool byWeakPoints = false)
+    public void Death(bool byWeakPoints = false)
     {
         if(animator != null)
         {
@@ -82,6 +90,7 @@ public class EnemyAnimation : MonoBehaviour
                 animator.SetInteger("NormalDeathRandom", Random.Range(0, numberAlternateNormalDeath));
                 animator.SetTrigger("NormalDeath");
             }
+            enemy.enemySounds.PlayDeathSound();
         }
     }
 }
