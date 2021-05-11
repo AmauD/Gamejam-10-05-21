@@ -20,6 +20,11 @@ public class EnemyAnimation : MonoBehaviour
         SetWalkingSpeed(1f);
     }
 
+    public void StopWalk()
+    {
+        SetWalkingSpeed(0f);
+    }
+
     public void SetWalkingSpeed(float speed)
     {
         if (animator != null)

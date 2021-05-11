@@ -7,6 +7,8 @@ public class EnemyMove : MonoBehaviour
     public float speed;
     private Transform _transform;
 
+    public bool moving = false;
+
     private void Start()
     {
         _transform = transform;
@@ -15,13 +17,18 @@ public class EnemyMove : MonoBehaviour
 
     private void Update()
     {
-        MoveToPlayer();
+        if(moving)
+            MoveToPlayer();
     }
 
     private void MoveToPlayer()
     {
-        Vector3 target = new Vector3(player.position.x, _transform.position.y, player.position.z);
-        _transform.LookAt(target);
+        _transform.LookAt(player.position);
         _transform.position += Time.deltaTime * speed * _transform.forward;
+
+        if (Vector3.Distance(_transform.position, player.position) < 1f)
+        {
+
+        }
     }
 }

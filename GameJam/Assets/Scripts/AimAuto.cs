@@ -15,6 +15,7 @@ public class AimAuto : MonoBehaviour
 
     private void Start()
     {
+        if (!_crosshair) return;
         Sequence sequence = DOTween.Sequence().SetLoops(-1,LoopType.Restart);
         sequence.Append(_crosshair.rectTransform.DOPivotY(-2, 1f));
         sequence.Append(_crosshair.rectTransform.DOPivotY(2.5f, 1f));
@@ -39,25 +40,26 @@ public class AimAuto : MonoBehaviour
 
         foreach (var enemy in _enemySpawner.enemyList)
         {
-            var distanceWithChampion = Vector3.Distance(_playerTransform.position, enemy.position);
+            var distanceWithChampion = Vector3.Distance(_playerTransform.position, enemy.transform.position);
             if (distanceWithChampion < minDistance)
             {
                 minDistance = distanceWithChampion;
-                enemyToTarget = enemy.position;
-                _closestEnemy = enemy;
+                enemyToTarget = enemy.transform.position;
+                _closestEnemy = enemy.transform;
+                var direction = (enemyToTarget - _playerTransform.position).normalized;
+                _playerTransform.DOLookAt(direction, 0.5f);
             }
 
             enemyToTarget.y = 0f;
-            var direction = (enemyToTarget - _playerTransform.position).normalized;
-            var rotGoal = Quaternion.LookRotation(direction);
-            _playerTransform.rotation =
-                Quaternion.Slerp(_playerTransform.rotation, rotGoal, _rotationSpeed * Time.deltaTime);
+            //var rotGoal = Quaternion.LookRotation(direction);
+            //_playerTransform.rotation =
+            //    Quaternion.Slerp(_playerTransform.rotation, rotGoal, _rotationSpeed * Time.deltaTime);
         }
     }
 
     private void SetCrosshair()
     {
-        if (!_closestEnemy) return;
+        if (!_closestEnemy || !_crosshair) return;
         _crosshair.rectTransform.position = _camera.WorldToScreenPoint(_closestEnemy.position);
         _playerShooter.TargetPosition = _camera.ScreenToWorldPoint(_crosshair.rectTransform.position);
     }
