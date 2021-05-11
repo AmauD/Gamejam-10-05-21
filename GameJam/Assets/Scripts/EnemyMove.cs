@@ -15,6 +15,11 @@ public class EnemyMove : MonoBehaviour
 
     private void Update()
     {
+        MoveToPlayer();
+    }
+
+    private void MoveToPlayer()
+    {
         Vector3 target = new Vector3(player.position.x, _transform.position.y, player.position.z);
         _transform.LookAt(target);
         _transform.position += Time.deltaTime * speed * _transform.forward;
