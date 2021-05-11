@@ -20,6 +20,18 @@ public class PlayerHealthController : MonoBehaviour
         _healthCurrent = _healthInitial;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        _healthCurrent -= 1;
+        Debug.Log(_healthCurrent);
+
+        if (_healthCurrent == 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+
     #endregion
 
 
