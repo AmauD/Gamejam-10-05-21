@@ -30,9 +30,19 @@ public class PlayerHealthController : MonoBehaviour
 
         if (_healthCurrent == 0)
         {
-            SceneManager.LoadScene(0);
+            if(SceneManager.sceneCount > 0)
+            { 
+                SceneManager.LoadScene(0);
+            }
         }
-        _enemySpawner.enemyList.Remove(other.transform);
+        if(_enemySpawner)
+        {
+            _enemySpawner.enemyList.Remove(other.transform);
+        }
+        else
+        {
+            Debug.Log("enemySpawner non assignée sur le PlayerHealthController");
+        }
         Destroy(other.gameObject);
     }
 
