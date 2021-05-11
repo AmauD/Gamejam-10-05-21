@@ -14,12 +14,32 @@ public class EnemyAnimation : MonoBehaviour
             animator = GetComponent<Animator>();
     }
 
+    [ContextMenu("Full Speed")]
+    public void FullSpeed()
+    {
+        SetWalkingSpeed(1f);
+    }
+
+    public void SetWalkingSpeed(float speed)
+    {
+        if (animator != null)
+        {
+            animator.SetFloat("BlendWalk", speed);
+        }
+    }
+
+    /// <summary>
+    /// Lance l'animation de mort normale
+    /// </summary>
     [ContextMenu("Normal Death")]
     public void NormalDeath()
     {
         Death();
     }
 
+    /// <summary>
+    /// Lance l'animation de mort par point faible
+    /// </summary>
     [ContextMenu("Weakpoint Death")]
     public void WeakpointDeath()
     {
