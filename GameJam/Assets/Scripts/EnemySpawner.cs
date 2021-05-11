@@ -7,7 +7,7 @@ public class EnemySpawner : MonoBehaviour
     #region Public Members
 
     public List<Transform> spawnPositionList;
-    public List<Transform> enemyList;
+    public List<Enemy> enemyList;
 
     #endregion
 
@@ -35,9 +35,17 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        Vector3 randomPosition = spawnPositionList[Random.Range(0, spawnPositionList.Count)].position + new Vector3(0, 1, 0);
-        GameObject enemy = Instantiate(_enemyPrefab, randomPosition, Quaternion.identity);
-        enemyList.Add(enemy.transform);
+        Enemy enemy = Instantiate(_enemyPrefab, new Vector3(0f, -100f, 0f), Quaternion.identity).GetComponent<Enemy>();
+        if(enemy)
+        {
+            enemy.InitializeEnemy(this, spawnPositionList[Random.Range(0, spawnPositionList.Count)]);
+            enemyList.Add(enemy);
+        }
+    }
+
+    public void UnlistEnemy(Enemy enemyToUnspawn)
+    {
+        enemyList.Remove(enemyToUnspawn);
     }
 
     #endregion

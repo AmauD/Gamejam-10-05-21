@@ -32,16 +32,26 @@ public class PlayerShooter : MonoBehaviour
     {
         Ray ray = new Ray(_camera.transform.position, _targetPosition - _camera.transform.position);
 
-
         Debug.DrawLine(_camera.transform.position, _targetPosition, Color.blue, 1f);
-
 
         if (Physics.Raycast(ray, out _hitInfo))
         {
             Debug.DrawLine(_gunTip.position, _hitInfo.point, Color.red,1f);
-            var hitObject = _hitInfo.collider.gameObject;
-            _enemySpawner.enemyList.Remove(_hitInfo.transform);
-            Destroy(hitObject, 0.5f);
+            GameObject hitObject = _hitInfo.collider.gameObject;
+            if(hitObject.layer == 6)
+            {
+                Enemy enemyHit = hitObject.GetComponent<Enemy>();
+                if(hitObject.tag == "Weakpoint")
+                {
+                    enemyHit.KillEnemy();
+                }
+                else
+                {
+                    enemyHit.DamageEnemy(damage);
+                }
+            }
+            //_enemySpawner.enemyList.Remove(hitObject.GetComponent<Enemy>());
+            //Destroy(hitObject, 0.5f);
         }
     }
 
@@ -56,6 +66,7 @@ public class PlayerShooter : MonoBehaviour
     private Vector3 _targetPosition;
     [SerializeField] private Camera _camera;
     [SerializeField] private EnemySpawner _enemySpawner;
+    [SerializeField] private int damage = 1;
 
     #endregion
 }
