@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -7,6 +6,7 @@ public class EnemySpawner : MonoBehaviour
 {
     #region Public Members
 
+    public List<Transform> spawnPositionList;
     public List<Transform> enemyList;
 
     #endregion
@@ -46,12 +46,7 @@ public class EnemySpawner : MonoBehaviour
     #region Private Members
 
     [SerializeField] private GameObject _enemyPrefab;
-    public List<Transform> spawnPositionList;
     [SerializeField] private float _spawnPeriod;
     [SerializeField] private float _nextSpawnTime;
-
-
-    // [SerializeField] private Bounds _terrainBounds;
-
     #endregion
 }
