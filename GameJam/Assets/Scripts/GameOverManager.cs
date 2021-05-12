@@ -1,9 +1,11 @@
 using UnityEngine;
+using TMPro;
 
 public class GameOverManager : MonoBehaviour
 {
     #region fields
     private GameManager _gameManager;
+    public TextMeshPro scoreText;
 
     #endregion
 
@@ -13,6 +15,8 @@ public class GameOverManager : MonoBehaviour
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        if (scoreText)
+            scoreText.text = GameManager.Instance._lastScore.ToString();
     }
 
     #endregion
