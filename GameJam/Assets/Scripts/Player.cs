@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System.Linq;
+using TMPro;
 
 public class Player : Entity
 {
@@ -34,7 +35,7 @@ public class Player : Entity
 
     private void TryFireGun()
     {
-        if(gun.TryFireGun())
+        if (gun.TryFireGun())
         {
             //NextEnemy();
         }
@@ -47,7 +48,7 @@ public class Player : Entity
 
     public void NextEnemy()
     {
-        if(currentEnemy < sortedEnemies.Length)
+        if (currentEnemy < sortedEnemies.Length)
         {
             gun.AssignTarget(sortedEnemies[currentEnemy++]);
         }
@@ -59,7 +60,7 @@ public class Player : Entity
 
     public void RemoveTarget(Enemy enemyToRemove)
     {
-        if(gun.RemoveTarget(enemyToRemove))
+        if (gun.RemoveTarget(enemyToRemove))
         {
             NextEnemy();
         }
@@ -81,7 +82,7 @@ public class Player : Entity
 
     void Update()
     {
-        if(IsAlive())
+        if (IsAlive())
         {
             GetEnemiesSorted();
             if (!gun.HasValidTarget())

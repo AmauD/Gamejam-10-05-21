@@ -123,7 +123,7 @@ public class Enemy : Entity
 
     private void Update()
     {
-        if (moving)
+        if (moving && player.IsAlive())
             MoveToPlayer();
     }
 }
