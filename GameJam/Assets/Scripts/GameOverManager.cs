@@ -5,7 +5,7 @@ public class GameOverManager : MonoBehaviour
 {
     #region fields
     private GameManager _gameManager;
-    public TextMeshPro scoreText;
+    public TextMeshProUGUI scoreText;
 
     #endregion
 
