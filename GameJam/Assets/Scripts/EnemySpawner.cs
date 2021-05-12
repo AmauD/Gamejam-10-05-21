@@ -33,10 +33,13 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time >= _nextSpawnTime)
+        if(Player.Instance.IsAlive())
         {
-            SpawnEnemy();
-            _nextSpawnTime = Time.time + _spawnPeriod;
+            if (Time.time >= _nextSpawnTime)
+            {
+                SpawnEnemy();
+                _nextSpawnTime = Time.time + _spawnPeriod;
+            }
         }
     }
 
