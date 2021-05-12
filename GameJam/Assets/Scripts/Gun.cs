@@ -11,6 +11,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private AudioSource gunAudioSource;
     [SerializeField] private ParticleSystem muzzleFlash;
+    [SerializeField] private GunSounds gunSounds;
 
     [SerializeField] private int damage = 1;
     [SerializeField] private int maxAmmo = 6;
@@ -84,6 +85,7 @@ public class Gun : MonoBehaviour
             tween.Kill();
         }
 
+        gunSounds.PlayFireSound();
         muzzleFlash.Play(true);
         currentAmmo--;
 
@@ -127,6 +129,7 @@ public class Gun : MonoBehaviour
         canFire = false;
         tween = transform.DOLocalMoveY(0f, 0.5f);
         yield return tween.WaitForCompletion();
+        gunSounds.PlayReloadSound();
         yield return new WaitForSeconds(reloadTime);
         currentAmmo = maxAmmo;
         tween = transform.DOLocalMoveY(1.5f, 0.5f);

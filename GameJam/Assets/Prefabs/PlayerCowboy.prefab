@@ -9734,6 +9734,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3390624952482292529}
   - component: {fileID: 3390624952482292528}
+  - component: {fileID: 2288011256042492921}
   m_Layer: 0
   m_Name: Canon
   m_TagString: Untagged
@@ -9851,6 +9852,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2288011256042492921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3390624952482292534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 978aef9e00ead4849a8a04591b7b45a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gunAudioSource: {fileID: 0}
+  fireSounds:
+  - {fileID: 8300000, guid: 11c9dd3d806a4fa49aa8a016bbac4334, type: 3}
+  - {fileID: 8300000, guid: 90aa2f989beb2834aa5c2a20431a6585, type: 3}
+  - {fileID: 8300000, guid: a21fbbb23649bff46907d143efdb6089, type: 3}
+  - {fileID: 8300000, guid: 0cb479aedbf4d1948bd5ef9d55c78981, type: 3}
+  reloadSounds:
+  - {fileID: 8300000, guid: edde3934def3804498897b2620453a4e, type: 3}
 --- !u!1 &3390624952867338235
 GameObject:
   m_ObjectHideFlags: 0
@@ -10120,6 +10141,7 @@ MonoBehaviour:
     m_Bits: 64
   gunAudioSource: {fileID: 3390624952482292528}
   muzzleFlash: {fileID: 1010335900}
+  gunSounds: {fileID: 2288011256042492921}
   damage: 1
   maxAmmo: 6
   reloadTime: 1
