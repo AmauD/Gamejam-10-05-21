@@ -22,10 +22,13 @@ public class Enemy : Entity
     [SerializeField] private int damage = 1;
     private Player player;
 
+    private Score score;
+
     protected override void Start()
     {
         base.Start();
         player = Player.Instance;
+        score = Score.Instance;
         StartCoroutine(PingPong());
     }
 
@@ -71,6 +74,7 @@ public class Enemy : Entity
         currenHealth -= damage;
         if (currenHealth <= 0)
         {
+            score.PlayerScore(Vector3.Distance(this.transform.position, player.transform.position), weakpoint);
             Kill();
             enemyAnimation.Death(weakpoint);
         }

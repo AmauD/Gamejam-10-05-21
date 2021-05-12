@@ -25,6 +25,7 @@ public class Gun : MonoBehaviour
     private Coroutine pingPong = null;
     private Coroutine reloading = null;
 
+
     void Start()
     {
         currentAmmo = maxAmmo;
@@ -100,6 +101,10 @@ public class Gun : MonoBehaviour
                     enemy.Damage(damage);
                 }
             }
+        }
+        else
+        {
+            Score.Instance.ResetMultiplier();
         }
 
         if (currentAmmo <= 0)
