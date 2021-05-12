@@ -7,7 +7,7 @@ public class MainMenuManager : MonoBehaviour
 {
     public void StartGame()
     {
-        if(SceneManager.sceneCount > 1)
+        if (SceneManager.sceneCount > 1)
             SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
 
@@ -16,7 +16,7 @@ public class MainMenuManager : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-         Application.Quit();
+        Application.Quit();
 #endif
     }
 }
