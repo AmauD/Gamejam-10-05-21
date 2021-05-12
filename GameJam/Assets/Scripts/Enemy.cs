@@ -7,7 +7,6 @@ public class Enemy : Entity
 {
     private EnemySpawner enemySpawner = null;
 
-    [SerializeField] private EnemyMove enemyMove = null;
     [SerializeField] private EnemyAnimation enemyAnimation = null;
     [SerializeField] public EnemySounds enemySounds = null;
 
@@ -21,12 +20,12 @@ public class Enemy : Entity
     private bool moving = false;
 
     [SerializeField] private int damage = 1;
-    private Player target;
+    private Player player;
 
     protected override void Start()
     {
         base.Start();
-        target = FindObjectOfType<Player>();
+        player = Player.Instance;
         StartCoroutine(PingPong());
     }
 
@@ -45,6 +44,7 @@ public class Enemy : Entity
 
     public void RemoveEnemy()
     {
+        player.RemoveTarget(this);
         enemySpawner.UnlistEnemy(this);
     }
 
@@ -57,10 +57,10 @@ public class Enemy : Entity
 
     private void MoveToPlayer()
     {
-        transform.LookAt(target.transform.position);
+        transform.LookAt(player.transform.position);
         transform.position += Time.deltaTime * speed * transform.forward;
 
-        if (Vector3.Distance(transform.position, target.transform.position) < 4f)
+        if (Vector3.Distance(transform.position, player.transform.position) < 4f)
         {
             LaunchAttack();
         }
@@ -78,7 +78,7 @@ public class Enemy : Entity
 
     public void DamagePlayer()
     {
-        target.Damage(damage);
+        player.Damage(damage);
     }
 
     public override void Kill()

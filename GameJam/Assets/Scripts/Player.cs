@@ -11,6 +11,21 @@ public class Player : Entity
     [SerializeField] private Enemy[] sortedEnemies;
     private int currentEnemy;
 
+    private static Player instance;
+
+    public static Player Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<Player>();
+            }
+
+            return instance;
+        }
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -39,6 +54,14 @@ public class Player : Entity
         else
         {
             TargetClosestEnemy();
+        }
+    }
+
+    public void RemoveTarget(Enemy enemyToRemove)
+    {
+        if(gun.RemoveTarget(enemyToRemove))
+        {
+            NextEnemy();
         }
     }
 

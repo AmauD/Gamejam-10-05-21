@@ -78,6 +78,7 @@ public class EnemyAnimation : MonoBehaviour
 
     public void Death(bool byWeakPoints = false)
     {
+        enemy.RemoveEnemy();
         if(animator != null)
         {
             if(byWeakPoints)

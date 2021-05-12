@@ -18,6 +18,8 @@ public class Gun : MonoBehaviour
 
     [SerializeField] private float reloadTime = 2f;
 
+    private bool canFire = true;
+
     private Enemy currentTarget = null;
     private Tweener tween;
     private Coroutine pingPong = null;
@@ -40,6 +42,21 @@ public class Gun : MonoBehaviour
             currentTarget = enemyToTarget;
             pingPong = StartCoroutine(PingPong());
         }
+        else
+        {
+
+        }
+    }
+
+    public bool RemoveTarget(Enemy enemyToRemove)
+    {
+        if(currentTarget == enemyToRemove)
+        {
+            currentTarget = null;
+            return true;
+        }
+
+        return false;
     }
 
     public bool Reloading()
@@ -49,7 +66,7 @@ public class Gun : MonoBehaviour
 
     public bool TryFireGun()
     {
-        if(currentAmmo > 0 && !Reloading())
+        if(currentAmmo > 0 && canFire)
         {
             FireGun();
             return true;
@@ -102,6 +119,7 @@ public class Gun : MonoBehaviour
 
     IEnumerator Reload()
     {
+        canFire = false;
         tween = transform.DOLocalMoveY(0f, 0.5f);
         yield return tween.WaitForCompletion();
         yield return new WaitForSeconds(reloadTime);
@@ -109,17 +127,20 @@ public class Gun : MonoBehaviour
         tween = transform.DOLocalMoveY(1f, 0.5f);
         yield return tween.WaitForCompletion();
         player.TargetClosestEnemy();
-        reloading = null;
+        canFire = true;
     }
 
     IEnumerator PingPong()
     {
-        if (currentTarget)
+        if (HasValidTarget())
         {
-            tween = transform.DOLookAt(currentTarget.gunTarget.position, 0.5f);
+            canFire = false;
 
+            tween = transform.DOLookAt(currentTarget.gunTarget.position, 0.5f);
             yield return tween.WaitForCompletion();
-            while (true && currentTarget)
+            canFire = true;
+
+            while (currentTarget)
             {
                 tween = transform.DOLookAt(currentTarget.gunTarget.position, 0f);
                 yield return new WaitForEndOfFrame();
@@ -129,7 +150,7 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        if(reloading == null && player.IsAlive())
+        if(canFire && player.IsAlive())
         {
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo, 250f, layerMask))
             {
