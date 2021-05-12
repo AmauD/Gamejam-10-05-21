@@ -10,6 +10,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private SpriteRenderer crosshair;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private AudioSource gunAudioSource;
+    [SerializeField] private ParticleSystem muzzleFlash;
 
     [SerializeField] private int damage = 1;
     [SerializeField] private int maxAmmo = 6;
@@ -65,6 +66,7 @@ public class Gun : MonoBehaviour
             tween.Kill();
         }
 
+        muzzleFlash.Play();
         currentAmmo--;
 
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo, 250f, layerMask))
