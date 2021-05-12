@@ -4,6 +4,7 @@ public class GameManager : MonoBehaviour
 {
     #region fields
     [SerializeField] private SceneLoader _sceneLoader;
+    public int _lastScore = 0;
 
     #endregion
 
@@ -20,6 +21,11 @@ public class GameManager : MonoBehaviour
 
 
     #region public Methods
+
+    public void GameOver()
+    {
+        // _lastScore = Score.Instance.GetScore();
+    }
 
     public void GameQuit()
     {
