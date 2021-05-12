@@ -72,6 +72,10 @@ MonoBehaviour:
   gunTarget: {fileID: 5051948208135817359}
   overTarget: {fileID: 1986678634994976855}
   underTarget: {fileID: 9138578172326200976}
+  possibleMaterials:
+  - {fileID: 2100000, guid: 3bf5f8a6df61d1444a1fdf0747ab1474, type: 2}
+  - {fileID: 2100000, guid: c30be64d1a3a2cb4a919eecfc8227b70, type: 2}
+  - {fileID: 2100000, guid: c99b754ec99b65b4e96ba1105037a9a8, type: 2}
   speed: 2.5
   damage: 1
 --- !u!114 &2621565729671289359

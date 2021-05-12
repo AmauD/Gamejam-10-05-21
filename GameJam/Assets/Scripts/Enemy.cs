@@ -15,6 +15,8 @@ public class Enemy : Entity
     public Transform overTarget;
     public Transform underTarget;
 
+    [SerializeField] private Material[] possibleMaterials;
+
     [SerializeField] private float speed = 2.5f;
     private bool moving = false;
 
@@ -28,9 +30,13 @@ public class Enemy : Entity
         StartCoroutine(PingPong());
     }
 
-    public void InitializeEnemy(EnemySpawner enemySpawner, Transform spawnLocation)
+    public void InitializeEnemy(Transform spawnLocation)
     {
-        this.enemySpawner = enemySpawner;
+        this.enemySpawner = EnemySpawner.Instance;
+        if(possibleMaterials.Length > 0)
+        {
+            GetComponentInChildren<SkinnedMeshRenderer>().material = possibleMaterials[Random.Range(0, possibleMaterials.Length)];
+        }
         transform.position = spawnLocation.position;
         transform.rotation = spawnLocation.rotation;
         moving = true;

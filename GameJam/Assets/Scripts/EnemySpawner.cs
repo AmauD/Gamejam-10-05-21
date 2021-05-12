@@ -9,6 +9,18 @@ public class EnemySpawner : MonoBehaviour
     public List<Transform> spawnPositionList;
     public List<Enemy> enemyList;
 
+    public static EnemySpawner Instance
+    {
+        get
+        {
+            if (!instance)
+            {
+                instance = FindObjectOfType<EnemySpawner>();
+            }
+            return instance;
+        }
+    }
+
     #endregion
 
 
@@ -38,7 +50,7 @@ public class EnemySpawner : MonoBehaviour
         Enemy enemy = Instantiate(_enemyPrefab, new Vector3(0f, -100f, 0f), Quaternion.identity).GetComponent<Enemy>();
         if(enemy)
         {
-            enemy.InitializeEnemy(this, spawnPositionList[Random.Range(0, spawnPositionList.Count)]);
+            enemy.InitializeEnemy(spawnPositionList[Random.Range(0, spawnPositionList.Count)]);
             enemyList.Add(enemy);
         }
     }
@@ -56,5 +68,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private float _spawnPeriod;
     [SerializeField] private float _nextSpawnTime;
+
+    private static EnemySpawner instance;
     #endregion
 }

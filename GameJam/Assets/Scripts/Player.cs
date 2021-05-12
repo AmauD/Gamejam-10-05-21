@@ -7,15 +7,14 @@ using System.Linq;
 public class Player : Entity
 {
     [SerializeField] private Gun gun;
-    [SerializeField] private EnemySpawner enemySpawner;
+    private EnemySpawner enemySpawner;
     [SerializeField] private Enemy[] sortedEnemies;
     private int currentEnemy;
 
     protected override void Start()
     {
         base.Start();
-        if (!enemySpawner)
-            enemySpawner = FindObjectOfType<EnemySpawner>();
+        enemySpawner = EnemySpawner.Instance;
     }
 
     private void TryFireGun()
