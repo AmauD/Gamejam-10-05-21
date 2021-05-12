@@ -69,7 +69,7 @@ public class EnemySpawner : MonoBehaviour
     #region Private Members
 
     [SerializeField] private GameObject _enemyPrefab;
-    [SerializeField] private float _spawnPeriod;
+    [SerializeField] public float _spawnPeriod;
     [SerializeField] private float _nextSpawnTime;
 
     private static EnemySpawner instance;
