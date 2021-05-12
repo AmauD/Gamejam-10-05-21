@@ -1141,6 +1141,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 3552771018945708133, guid: 7fbe8df7169b6e04b8b0ad73cc377f3c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 5.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552771018945708133, guid: 7fbe8df7169b6e04b8b0ad73cc377f3c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -17.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552771018999012945, guid: 7fbe8df7169b6e04b8b0ad73cc377f3c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552771018999012945, guid: 7fbe8df7169b6e04b8b0ad73cc377f3c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552771019031904245, guid: 7fbe8df7169b6e04b8b0ad73cc377f3c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552771019031904245, guid: 7fbe8df7169b6e04b8b0ad73cc377f3c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.52
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fbe8df7169b6e04b8b0ad73cc377f3c, type: 3}
 --- !u!4 &603546560 stripped
