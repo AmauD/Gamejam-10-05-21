@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Score : MonoBehaviour
 {
-    private float _score = 0;
-    private float _multiplier = 1;
+    private int _score = 0;
+    private int _multiplier = 1;
 
     private static Score instance;
 
@@ -19,11 +19,12 @@ public class Score : MonoBehaviour
         }
     }
 
-    public float GetScore { get => _score;}
+    public int GetScore { get => _score; }
+    public int GetMultiplier { get => _multiplier; }
 
     public void PlayerScore(float _distance, bool weakpoint)
     {
-        _score += (10 * _distance) * _multiplier;
+        _score += (10 * Mathf.RoundToInt(_distance)) * _multiplier;
         if (weakpoint)
             IncrementMultiplier();
     }
