@@ -84,7 +84,7 @@ public class Gun : MonoBehaviour
             tween.Kill();
         }
 
-        muzzleFlash.Play();
+        muzzleFlash.Play(true);
         currentAmmo--;
 
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitInfo, 250f, layerMask))
@@ -137,7 +137,7 @@ public class Gun : MonoBehaviour
 
     IEnumerator PingPong()
     {
-        if (HasValidTarget())
+        if (HasValidTarget() && player.IsAlive())
         {
             canFire = false;
 
@@ -145,7 +145,7 @@ public class Gun : MonoBehaviour
             yield return tween.WaitForCompletion();
             canFire = true;
 
-            while (currentTarget)
+            while (currentTarget && player.IsAlive() && canFire)
             {
                 tween = transform.DOLookAt(currentTarget.gunTarget.position, 0f);
                 yield return new WaitForEndOfFrame();

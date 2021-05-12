@@ -78,6 +78,23 @@ public class Enemy : Entity
             Kill();
             enemyAnimation.Death(weakpoint);
         }
+        else
+        {
+            StartCoroutine(DamageAnimation());
+
+        }
+    }
+
+    IEnumerator DamageAnimation()
+    {
+        moving = false;
+        enemyAnimation.StopWalk();
+        yield return new WaitForSeconds(0.5f);
+        if(IsAlive())
+        {
+            moving = true;
+            enemyAnimation.FullSpeed();
+        }
     }
 
     public void DamagePlayer()
