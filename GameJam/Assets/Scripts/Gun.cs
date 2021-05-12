@@ -129,7 +129,7 @@ public class Gun : MonoBehaviour
         yield return tween.WaitForCompletion();
         yield return new WaitForSeconds(reloadTime);
         currentAmmo = maxAmmo;
-        tween = transform.DOLocalMoveY(1f, 0.5f);
+        tween = transform.DOLocalMoveY(1.5f, 0.5f);
         yield return tween.WaitForCompletion();
         player.TargetClosestEnemy();
         canFire = true;
