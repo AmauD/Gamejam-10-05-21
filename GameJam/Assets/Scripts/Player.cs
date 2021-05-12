@@ -78,6 +78,7 @@ public class Player : Entity
     {
         base.Kill();
         gun.AssignTarget(null);
+        GameManager.Instance.GameOver();
     }
 
     void Update()
